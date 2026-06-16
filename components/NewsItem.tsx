@@ -10,7 +10,7 @@ export default function NewsItemRow({ item }: { item: NewsItem }) {
         <span className="w-2 h-2 rounded-full bg-accent inline-block mt-1.5 shrink-0" />
         {item.url ? (
           <a href={item.url} target="_blank" rel="noopener noreferrer"
-            className="text-text-primary text-sm hover:text-accent transition-colors">
+            className="text-text-primary text-sm hover:text-accent-hover transition-colors">
             {item.text}
           </a>
         ) : (

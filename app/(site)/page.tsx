@@ -74,7 +74,7 @@ export default async function AboutPage() {
                 href={href}
                 target={href.startsWith('http') ? '_blank' : undefined}
                 rel={href.startsWith('http') ? 'noopener noreferrer' : undefined}
-                className="font-mono text-sm border border-border text-text-muted px-3 py-1.5 rounded hover:border-accent hover:text-accent transition-colors"
+                className="font-mono text-sm border border-border text-text-muted px-3 py-1.5 rounded hover:border-accent-hover hover:text-accent-hover transition-colors"
               >
                 {label}
               </a>

@@ -3,13 +3,14 @@
 @tailwind utilities;
 
 :root {
-  --bg:           #FBF8F3;
-  --surface:      #F1EAE0;
-  --border:       #DDD0BC;
-  --accent:       #B8711A;
-  --accent-warm:  #B85638;
-  --text-primary: #241C12;
-  --text-muted:   #7D6850;
+  --bg:           #FAFAFA;
+  --surface:      #F4F4F5;
+  --border:       #E4E4E7;
+  --accent:       #4F46E5;
+  --accent-hover: #4338CA;
+  --accent-warm:  #7C3AED;
+  --text-primary: #18181B;
+  --text-muted:   #71717A;
 }
 
 html {

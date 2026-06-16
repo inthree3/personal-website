@@ -6,7 +6,7 @@ export default function ProjectCard({ project }: { project: Project }) {
       'rounded-lg border bg-surface p-5 flex flex-col gap-3 transition-colors',
       project.highlight
         ? 'border-accent-warm/40 hover:border-accent-warm'
-        : 'border-border hover:border-accent',
+        : 'border-border hover:border-accent-hover',
     ].join(' ')}>
       <div className="flex items-start justify-between gap-2">
         <h3 className="font-serif text-lg text-text-primary">{project.title}</h3>

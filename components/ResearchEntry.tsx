@@ -13,7 +13,7 @@ export default function ResearchEntryRow({ entry }: { entry: ResearchEntry }) {
         <div className="flex-1 min-w-0">
           {entry.url ? (
             <a href={entry.url} target="_blank" rel="noopener noreferrer"
-              className="font-serif text-lg text-text-primary hover:text-accent transition-colors">
+              className="font-serif text-lg text-text-primary hover:text-accent-hover transition-colors">
               {entry.title}
             </a>
           ) : (
@@ -29,11 +29,11 @@ export default function ResearchEntryRow({ entry }: { entry: ResearchEntry }) {
         <div className="flex gap-4 mt-2">
           {entry.pdf && (
             <a href={entry.pdf} target="_blank" rel="noopener noreferrer"
-              className="font-mono text-xs text-text-muted hover:text-accent">[PDF]</a>
+              className="font-mono text-xs text-text-muted hover:text-accent-hover">[PDF]</a>
           )}
           {entry.poster && (
             <a href={entry.poster} target="_blank" rel="noopener noreferrer"
-              className="font-mono text-xs text-text-muted hover:text-accent">[Poster]</a>
+              className="font-mono text-xs text-text-muted hover:text-accent-hover">[Poster]</a>
           )}
         </div>
       )}

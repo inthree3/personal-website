@@ -23,7 +23,7 @@ export default function Nav() {
       <nav className="mx-auto flex max-w-content items-center px-4 py-4">
         <Link
           href="/"
-          className="font-serif text-lg text-text-primary hover:text-accent transition-colors"
+          className="font-serif text-lg text-text-primary hover:text-accent-hover transition-colors"
         >
           Inseon Hwang
         </Link>

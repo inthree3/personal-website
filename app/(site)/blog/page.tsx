@@ -25,13 +25,13 @@ export default async function BlogPage() {
           {posts.map((post) => (
             <li key={post._id}>
               <Link href={`/blog/${post.slug}`} className="group block">
-                <article className="border border-border rounded-lg p-5 bg-surface hover:border-accent transition-colors">
+                <article className="border border-border rounded-lg p-5 bg-surface hover:border-accent-hover transition-colors">
                   <time className="font-mono text-xs text-text-muted">
                     {new Date(post.date).toLocaleDateString('en-US', {
                       year: 'numeric', month: 'long', day: 'numeric',
                     })}
                   </time>
-                  <h2 className="font-serif text-xl text-text-primary mt-1 group-hover:text-accent transition-colors">
+                  <h2 className="font-serif text-xl text-text-primary mt-1 group-hover:text-accent-hover transition-colors">
                     {post.title}
                   </h2>
                   <p className="text-text-muted text-sm mt-2 leading-relaxed">
