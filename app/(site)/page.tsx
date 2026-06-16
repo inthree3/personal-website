@@ -36,10 +36,10 @@ export default async function AboutPage() {
         </div>
         {s.profileImage && (
           <Image
-            src={urlFor(s.profileImage).width(96).height(96).fit('crop').url()}
+            src={urlFor(s.profileImage).width(128).height(128).fit('crop').url()}
             alt={s.name}
-            width={96}
-            height={96}
+            width={128}
+            height={128}
             className="rounded-full border border-border shrink-0"
           />
         )}
@@ -51,7 +51,7 @@ export default async function AboutPage() {
           <h2 className="font-mono text-xs text-text-muted uppercase tracking-widest mb-4">
             Background
           </h2>
-          <div className="prose prose-invert prose-sm max-w-none
+          <div className="prose prose-sm max-w-none
             prose-p:text-text-muted prose-p:leading-relaxed
             prose-a:text-accent prose-a:no-underline hover:prose-a:underline
             prose-strong:text-text-primary">

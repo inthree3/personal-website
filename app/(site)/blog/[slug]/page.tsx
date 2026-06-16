@@ -48,7 +48,7 @@ export default async function PostPage({ params }: Props) {
         )}
       </header>
 
-      <div className="prose prose-invert prose-sm max-w-none
+      <div className="prose prose-sm max-w-none
         prose-headings:font-serif prose-headings:text-text-primary
         prose-p:text-text-muted prose-p:leading-relaxed
         prose-a:text-accent prose-a:no-underline hover:prose-a:underline
