@@ -36,10 +36,11 @@ export default async function AboutPage() {
         </div>
         {s.profileImage && (
           <Image
-            src={urlFor(s.profileImage).width(128).height(128).fit('crop').url()}
+            src={urlFor(s.profileImage).width(256).height(256).fit('crop').quality(95).auto('format').url()}
             alt={s.name}
             width={128}
             height={128}
+            unoptimized
             className="rounded-full border border-border shrink-0"
           />
         )}
