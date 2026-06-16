@@ -1,19 +1,30 @@
-import type { Config } from "tailwindcss";
+import type { Config } from 'tailwindcss'
 
 const config: Config = {
   content: [
-    "./pages/**/*.{js,ts,jsx,tsx,mdx}",
-    "./components/**/*.{js,ts,jsx,tsx,mdx}",
-    "./app/**/*.{js,ts,jsx,tsx,mdx}",
+    './app/**/*.{ts,tsx}',
+    './components/**/*.{ts,tsx}',
   ],
   theme: {
     extend: {
       colors: {
-        background: "var(--background)",
-        foreground: "var(--foreground)",
+        bg:            'var(--bg)',
+        surface:       'var(--surface)',
+        border:        'var(--border)',
+        accent:        'var(--accent)',
+        'accent-warm': 'var(--accent-warm)',
+        'text-primary':'var(--text-primary)',
+        'text-muted':  'var(--text-muted)',
       },
+      fontFamily: {
+        serif: ['var(--font-dm-serif)', 'serif'],
+        sans:  ['var(--font-inter)', 'system-ui', 'sans-serif'],
+        mono:  ['var(--font-jetbrains)', 'monospace'],
+      },
+      maxWidth: { content: '768px' },
     },
   },
-  plugins: [],
-};
-export default config;
+  plugins: [require('@tailwindcss/typography')],
+}
+
+export default config
