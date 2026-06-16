@@ -7,8 +7,9 @@ const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID!
 const dataset   = process.env.NEXT_PUBLIC_SANITY_DATASET ?? 'production'
 
 export default defineConfig({
-  name:    'inseon-personal-website',
-  title:   'Inseon · Personal Website',
+  name:     'inseon-personal-website',
+  title:    'Inseon · Personal Website',
+  basePath: '/studio',
   projectId,
   dataset,
   plugins: [
