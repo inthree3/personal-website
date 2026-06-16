@@ -50,8 +50,8 @@ export const postType = defineType({
   ],
   preview: {
     select: { title: 'title', date: 'date' },
-    prepare({ title, date }: { title: string; date: string }) {
-      return { title, subtitle: date ? new Date(date).toLocaleDateString() : 'No date' }
+    prepare({ title, date }) {
+      return { title, subtitle: date ? new Date(date as string).toLocaleDateString() : 'No date' }
     },
   },
 })

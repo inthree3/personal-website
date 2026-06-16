@@ -59,8 +59,8 @@ export const projectType = defineType({
   ],
   preview: {
     select: { title: 'title', date: 'date' },
-    prepare({ title, date }: { title: string; date: string }) {
-      return { title, subtitle: date ?? 'No date' }
+    prepare({ title, date }) {
+      return { title, subtitle: (date as string | undefined) ?? 'No date' }
     },
   },
 })

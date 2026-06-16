@@ -52,8 +52,8 @@ export const researchEntryType = defineType({
   ],
   preview: {
     select: { title: 'title', venue: 'venue', date: 'date' },
-    prepare({ title, venue, date }: { title: string; venue: string; date: string }) {
-      const year = date ? new Date(date).getFullYear() : ''
+    prepare({ title, venue, date }) {
+      const year = date ? new Date(date as string).getFullYear() : ''
       return { title, subtitle: `${venue} · ${year}` }
     },
   },
