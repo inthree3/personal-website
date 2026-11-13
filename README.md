@@ -26,7 +26,7 @@ The file or folder name is the URL (`/writing/<slug>/`), so use lowercase letter
 
 From Notion: export the page as Markdown & CSV, rename the exported `.md` to `index.md` inside a folder named after the slug, keep the image folder beside it, and add the front matter above. Relative image paths are published under the post's URL. A lone image line becomes a figure; its "title" is the caption: `![Alt text](/assets/slide.jpg "Caption")`. Raw HTML such as `<details>` works; leave a blank line after `<summary>` so the Markdown inside is still parsed.
 
-On the home page the `#` heading is the headline, the paragraphs under it are the introduction, and each `- **Topic** question` line under "Currently thinking about" becomes a tile. On pages, a link to a `.pdf` becomes a download button (its "title" is the saved file name).
+A `<br>` inside a page's `#` heading splits it into a dark first line and a grey second line (`# Hi, I’m Stella.<br>A full-stack engineer…`). On the home page the `#` heading is the headline, the shelf drawing under it (`scripts/shelf.mjs`) links to each section, the paragraphs under it are the introduction, and each `- **Topic** question` line under "Currently thinking about" becomes a tile. On pages, a link to a `.pdf` becomes a download button (its "title" is the saved file name).
 
 ## Edit design
 

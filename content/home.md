@@ -5,7 +5,7 @@ portrait: /assets/stella-hwang-presentation.jpg
 portrait_alt: Stella Hwang standing beside a research poster
 ---
 
-# Hi, I’m Stella, a full-stack engineer focused on AI and data.
+# Hi, I’m Stella.<br>A full-stack engineer focused on AI and data.
 
 My background spans entrepreneurship, research, and software development. I’ve developed early-stage ventures, including MEFETO and FionaHan.
 

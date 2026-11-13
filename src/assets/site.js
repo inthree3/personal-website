@@ -22,10 +22,3 @@ if (themeButton) {
   });
   preference.addEventListener('change', updateThemeControl);
 }
-// The header gains a hairline and a frosted background once the page scrolls under it.
-const header = document.querySelector('.site-header');
-if (header) {
-  const onScroll = () => header.classList.toggle('is-scrolled', window.scrollY > 4);
-  onScroll();
-  window.addEventListener('scroll', onScroll, { passive: true });
-}

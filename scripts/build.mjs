@@ -3,6 +3,7 @@ import {readFileSync,existsSync} from 'node:fs';
 import {dirname,join} from 'node:path';
 import {root,base,posts,renderPost,articleBody} from './posts.mjs';
 import {frontMatter,markdown} from './markdown.mjs';
+import {shelf} from './shelf.mjs';
 const source=join(root,'src'),content=join(root,'content'),out=join(root,'dist');
 // Buttondown account name for the email subscribe form. The form is hidden until this is set.
 const buttondown=process.env.BUTTONDOWN_USERNAME || 'inseon';
@@ -17,7 +18,9 @@ const downloadIcon='<svg aria-hidden="true" viewBox="0 0 24 24" width="18" heigh
 function page(name){
  const file=join(content,name+'.md');
  const {data,body}=frontMatter(readFileSync(file,'utf8'));
- return {data,html:markdown(body)};
+ // A <br> in a page's # heading splits it into a dark first line and a grey second line.
+ const html=markdown(body).replace(/<h1>([\s\S]*?)<br>([\s\S]*?)<\/h1>/,'<h1>$1<span class="sub">$2</span></h1>');
+ return {data,html};
 }
 // Wraps each <h2> and what follows it in a <section>.
 function sections(html){
@@ -35,8 +38,9 @@ const subscribe=buttondown?`<form class="subscribe" action="https://buttondown.c
 const home=page('home');
 const [homeHead,homeRest='']=home.html.split(/(?=<h2>)/);
 const [homeTitle,homeIntro]=[homeHead.match(/<h1>[\s\S]*?<\/h1>/)?.[0]??'',homeHead.replace(/<h1>[\s\S]*?<\/h1>/,'')];
-const homeHtml=`<section class="hero"><div class="hero-text">${homeTitle}<div class="lead">${homeIntro}</div></div>${home.data.portrait?`<img class="portrait" src="${home.data.portrait}" alt="${escape(home.data.portrait_alt||'')}" fetchpriority="high" decoding="async">`:''}</section>
-${sections(homeRest).replace('<section class="section">','<section class="section topics">')}
+const homeHtml=`<section class="hero">${homeTitle}${shelf()}</section>
+<section class="about"><div class="lead">${homeIntro}</div>${home.data.portrait?`<img class="portrait" src="${home.data.portrait}" alt="${escape(home.data.portrait_alt||'')}" loading="lazy" decoding="async">`:''}</section>
+${sections(homeRest).replace('<section class="section">','<section class="section topics" id="thinking">')}
 <section class="section"><div class="section-heading"><h2>Writing</h2><a href="/writing/">All writing</a></div>${postList(posts.slice(0,3))}</section>`;
 
 const resume=page('resume');
@@ -92,7 +96,7 @@ const sized=html=>html.replace(/<img\b[^>]*>/g,tag=>{
 });
 
 for(const p of pages){
- const navigation=nav.map(([id,label,url])=>`<a href="${url}"${id===p.id?' aria-current="page"':''}>${label}</a>`).join('\n');
+ const navigation=nav.map(([id,label,url])=>`<a href="${url}" data-key="${id}"${id===p.id?' aria-current="page"':''}>${label}</a>`).join('\n');
  const html=template.replaceAll('{{title}}',escape(p.data.title)).replaceAll('{{description}}',escape(p.data.description)).replace('{{page}}',p.id).replace('{{navigation}}',navigation).replace('{{content}}',()=>sized(p.html));
  const target=join(out,p.route.endsWith('.html')?p.route:p.route+'index.html');await mkdir(dirname(target),{recursive:true});await writeFile(target,html);
 }
