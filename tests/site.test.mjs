@@ -29,3 +29,20 @@ test('pages retain identity and navigation',()=>{
   assert.ok(!/guestbook|aria-controls|href="#"/.test(html));
  }
 });
+test('every page has link-preview tags in the static <head>',()=>{
+ for(const file of walk(root).filter(p=>extname(p)==='.html')){
+  const head=readFileSync(file,'utf8').split('</head>')[0];
+  for(const key of ['og:type','og:title','og:description','og:image','og:site_name'])
+   assert.match(head,new RegExp(`<meta property="${key}" content="[^"]+">`),`${file}: missing ${key}`);
+  const image=head.match(/property="og:image" content="([^"]+)"/)[1];
+  assert.match(image,/^https:\/\//,`${file}: og:image must be an absolute URL`);
+  assert.ok(existsSync(join(root,new URL(image).pathname)),`${file}: og:image ${image} is not in the build`);
+  if(file.endsWith('404.html'))continue;
+  assert.match(head,/<meta property="og:url" content="https:\/\/[^"]+">/,`${file}: missing og:url`);
+  assert.ok(!/noindex/.test(head),`${file}: public pages must not be noindex`);
+ }
+ assert.match(readFileSync(join(root,'writing/presentations-with-llms/index.html'),'utf8'),/property="og:type" content="article"/);
+});
+test('robots.txt lets crawlers in',()=>{
+ assert.ok(!/Disallow: \/\s*$/m.test(readFileSync(join(root,'robots.txt'),'utf8')));
+});

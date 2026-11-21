@@ -90,7 +90,7 @@ This project uses Pages direct upload. It does not require a Worker config, D1, 
 
 ## Before using this as a finished professional site
 
-Work entries, project ideas, and writing are visibly labeled as samples. Replace them with confirmed content. Add your public contact links in `content/contact.md`. The deployment currently sends `noindex, nofollow` and disallows crawling in robots.txt while sample content is present; remove both once ready. Update SITE_URL when connecting a custom domain.
+Work entries, project ideas, and writing are visibly labeled as samples. Replace them with confirmed content. Add your public contact links in `content/contact.md`. Crawlers are allowed and every page gets link-preview tags (`og:*`, `twitter:card`, canonical) from its front matter `title` and `description` at build time. The preview image is the front matter `image` (optional `image_alt`), else a post's first image, else the portrait; the build fails if a title, description or image is missing. Update SITE_URL when connecting a custom domain, since preview URLs are absolute.
 
 No analytics or guestbook are included. Email subscribers are stored by Buttondown, not on this site.
 

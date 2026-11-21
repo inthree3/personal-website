@@ -62,7 +62,7 @@ const pages=[
  {id:'home',route:'',data:home.data,html:homeHtml},
  {id:'writing',route:'writing/',data:writing.data,html:`<div class="page-head">${writing.html}</div>${postList(posts)}${subscribe}`},
  {id:'contact',route:'contact/',data:contact.data,html:downloads(sections(contact.html))},
- ...posts.map(p=>({id:'writing',route:`writing/${p.slug}/`,data:{title:`${p.title} | Stella Hwang`,description:p.description},
+ ...posts.map(p=>({id:'writing',route:`writing/${p.slug}/`,post:p,data:{title:`${p.title} | Stella Hwang`,description:p.description,image:p.image,image_alt:p.image_alt},
   html:`<article class="article"><a class="back-link" href="/writing/">${chevron}Back to writing</a><header class="article-head"><h1>${escape(p.title)}</h1><p class="byline"><time datetime="${p.date}">${fullDate(p.date)}</time></p></header><div class="prose">${downloads(renderPost(p))}</div></article>${subscribe}`})),
  {id:'404',route:'404.html',data:missing.data,html:missing.html}
 ];
@@ -104,14 +104,36 @@ const sized=html=>html.replace(/<img\b[^>]*>/g,tag=>{
  return size?tag.replace(/^<img/,`<img width="${size[0]}" height="${size[1]}"`):tag;
 });
 
+// Link-preview tags (LinkedIn, Slack, X, KakaoTalk...) are written into every page's <head> at build time.
+// Image: front matter `image` (path or URL), else a post's first image, else the default portrait.
+const defaultImage='/assets/stella-hwang.png';
+const absolute=u=>/^https?:/.test(u)?u:base+u;
+function meta(p){
+ for(const key of ['title','description'])if(!p.data[key])throw new Error(`Page "/${p.route}" needs "${key}" in its front matter`);
+ const image=p.data.image||(p.post&&renderPost(p.post).match(/<img\b[^>]*\ssrc="(\/[^"]+)"/)?.[1])||defaultImage;
+ const file=!/^https?:/.test(image)&&join(out,decodeURI(image.split(/[?#]/)[0]));
+ if(file&&!existsSync(file))throw new Error(`Page "/${p.route}": preview image ${image} does not exist`);
+ const size=file&&imageSize(file);
+ const url=p.id==='404'?null:`${base}/${p.route}`;
+ const tags=[
+  ['og:type',p.post?'article':'website'],['og:site_name','Stella Hwang'],['og:title',p.data.title],['og:description',p.data.description],
+  ['og:url',url],['og:image',absolute(image)],['og:image:width',size?.[0]],['og:image:height',size?.[1]],['og:image:alt',p.data.image_alt||p.data.title],
+  ['article:published_time',p.post?.date],['twitter:card',image===defaultImage?'summary':'summary_large_image']
+ ].filter(([,v])=>v!=null&&v!=='');
+ return [
+  ...(url?[`<link rel="canonical" href="${url}">`]:['<meta name="robots" content="noindex">']),
+  ...tags.map(([k,v])=>`<meta ${k.startsWith('twitter:')?'name':'property'}="${k}" content="${escape(v)}">`)
+ ].join('\n');
+}
+
 for(const p of pages){
  const navigation=nav.map(([id,label,url])=>`<a href="${url}" data-key="${id}"${id===p.id?' aria-current="page"':''}>${label}</a>`).join('\n');
- const html=template.replaceAll('{{title}}',escape(p.data.title)).replaceAll('{{description}}',escape(p.data.description)).replace('{{page}}',p.id).replace('{{navigation}}',navigation).replace('{{content}}',()=>sized(p.html));
+ const html=template.replaceAll('{{title}}',escape(p.data.title)).replaceAll('{{description}}',escape(p.data.description)).replace('{{meta}}',()=>meta(p)).replace('{{page}}',p.id).replace('{{navigation}}',navigation).replace('{{content}}',()=>sized(p.html));
  const target=join(out,p.route.endsWith('.html')?p.route:p.route+'index.html');await mkdir(dirname(target),{recursive:true});await writeFile(target,html);
 }
 const items=await Promise.all(posts.map(async a=>{const body=await articleBody(a.slug);const url=`${base}/writing/${a.slug}/`;return `<item><title>${escape(a.title)}</title><link>${url}</link><guid isPermaLink="true">${url}</guid><pubDate>${day(a.date).toUTCString()}</pubDate><description>${escape(a.description)}</description><content:encoded><![CDATA[${body}]]></content:encoded></item>`;}));
 await writeFile(join(out,'feed.xml'),`<?xml version="1.0" encoding="UTF-8"?>\n<rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Stella Hwang: Writing</title><link>${base}/writing/</link><atom:link href="${base}/feed.xml" rel="self" type="application/rss+xml"/><description>Notes by Stella Hwang.</description><language>en</language>${items.join('')}</channel></rss>\n`);
-await writeFile(join(out,'robots.txt'),'User-agent: *\nDisallow: /\n');
+await writeFile(join(out,'robots.txt'),`User-agent: *\nAllow: /\n\nSitemap: ${base}/sitemap.xml\n`);
 await writeFile(join(out,'sitemap.xml'),`<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${pages.filter(p=>p.id!=='404').map(p=>`<url><loc>${base}/${p.route}</loc></url>`).join('')}</urlset>\n`);
 await writeFile(join(out,'_headers'),`/*
   X-Content-Type-Options: nosniff
