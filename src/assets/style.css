@@ -100,7 +100,7 @@ blockquote p:last-child{margin:0}
 .skip-link:focus{top:12px}
 
 /* ---------- home ---------- */
-.hero h1{margin-bottom:48px}
+.hero h1{margin-bottom:0}
 .shelf-figure{margin:0}
 .shelf{display:block;width:100%;height:auto;overflow:visible}
 .shelf *{vector-effect:non-scaling-stroke}
@@ -116,7 +116,7 @@ blockquote p:last-child{margin:0}
 .shelf .item{cursor:pointer;outline:none}
 .shelf .item:focus-visible .face{stroke:var(--accent);stroke-width:2.5}
 
-.about{display:grid;grid-template-columns:minmax(0,1fr) 168px;gap:48px;align-items:start;margin-top:72px}
+.about{display:grid;grid-template-columns:minmax(0,1fr) 168px;gap:48px;align-items:start;margin-top:48px}
 .lead{max-width:600px;font-size:18px;line-height:1.65}
 .lead p{margin-bottom:14px}
 .lead p:last-child{margin-bottom:0}
@@ -279,3 +279,10 @@ body:has(.site-nav a[data-key=contact]:hover) .item-contact .item-body{transform
  :root{--bg:#fff;--text:#000;--muted:#444}
  main{padding:0}
 }
+
+/* Resume, GitHub and LinkedIn icons under the portrait */
+.profile{display:flex;flex-direction:column;gap:14px}
+.profile-links{display:flex;gap:6px;margin:0}
+.profile-links a{display:grid;place-items:center;width:36px;height:36px;border-radius:8px;color:var(--muted);transition:color .15s,background-color .15s}
+.profile-links a:hover{color:var(--text);background:var(--hover)}
+@media (max-width:720px){.profile{order:-1;flex-direction:row;align-items:center;gap:16px}}

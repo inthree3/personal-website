@@ -1,12 +1,31 @@
 # Stella Hwang personal website
 
-A small, dependency-free static website hosted on Cloudflare Pages. HTML pages work without JavaScript. The only JavaScript controls the optional color theme.
+A small static website with a dependency-free production build, hosted on Cloudflare Pages. HTML pages work without JavaScript. Production JavaScript controls the optional color theme. A separate localhost development server adds visual editing and autosave.
+
+## Edit in your browser (localhost)
+
+Install the development tools once, then start the local editor:
+
+```sh
+npm install
+npm run dev
+```
+
+Open http://localhost:4173 and click **Edit page**. Edit the document directly, select text to apply bold or italic, choose headings or lists, and use **Link** (or Cmd/Ctrl+K) to insert or edit a link. Undo and redo work through the toolbar and normal keyboard shortcuts. Rich text pasted from another document keeps basic formatting.
+
+Changes save automatically to the corresponding Markdown file in `content/` **0.5 seconds after you stop typing**. Change **Autosave after** to use another delay (0.1 to 60 seconds); your browser remembers it. The status shows when the file is saved. **Done** waits for pending saves and returns to the normal page layout.
+
+The editor changes the page's text, not the shared navigation, portrait, generated post lists, or page metadata. While editing, content appears as a document; **Done** restores the page's regular layout. Existing images, tables, captions, and expandable sections are preserved. Source formatting can be normalized into equivalent Markdown or HTML after an edit. Opening and closing an untouched document leaves its source unchanged.
+
+If another tab or a file editor changed the source, saving stops with a conflict message. **Download your edits** before reloading, then reconcile them with the updated file. Failed saves retain your text and offer **Retry save**. Leaving with unsaved changes triggers a browser warning.
+
+The development server binds to your computer only. Editing tools and save endpoints are absent from `npm run preview` and the deployed static site. Saving locally does not deploy or send newsletters. To use another port: `PORT=4174 npm run dev`.
 
 ## Edit content (Markdown)
 
 All text lives in `content/` as Markdown files with front matter:
 
-- Pages: `content/home.md`, `content/writing.md`, `content/resume.md`, `content/contact.md`, `content/404.md`
+- Pages: `content/home.md`, `content/writing.md`, `content/contact.md`, `content/404.md`
 - Posts: `content/writing/<slug>.md`, or a folder `content/writing/<slug>/index.md` with its images next to it
 
 A post starts with:
@@ -26,25 +45,26 @@ The file or folder name is the URL (`/writing/<slug>/`), so use lowercase letter
 
 From Notion: export the page as Markdown & CSV, rename the exported `.md` to `index.md` inside a folder named after the slug, keep the image folder beside it, and add the front matter above. Relative image paths are published under the post's URL. A lone image line becomes a figure; its "title" is the caption: `![Alt text](/assets/slide.jpg "Caption")`. Raw HTML such as `<details>` works; leave a blank line after `<summary>` so the Markdown inside is still parsed.
 
-A `<br>` inside a page's `#` heading splits it into a dark first line and a grey second line (`# Hi, I’m Stella.<br>A full-stack engineer…`). On the home page the `#` heading is the headline, the shelf drawing under it (`scripts/shelf.mjs`) links to each section, the paragraphs under it are the introduction, and each `- **Topic** question` line under "Currently thinking about" becomes a tile. On pages, a link to a `.pdf` becomes a download button (its "title" is the saved file name).
+A `<br>` inside a page's `#` heading splits it into a dark first line and a grey second line (`# Hi, I’m Stella.<br>A full-stack engineer…`). On the home page the `#` heading is the headline, the paragraphs under it are the introduction, and each `- **Topic** question` line under "Currently thinking about" becomes a tile. On pages, a link to a `.pdf` becomes a download button (its "title" is the saved file name).
 
 ## Edit design
 
 - Shared header and navigation: `src/template.html` and `scripts/build.mjs`
 - Styles: `src/assets/style.css`
 - Markdown renderer: `scripts/markdown.mjs` (no dependencies)
-- Sample resume PDFs: `src/resumes/`
-- PDF authoring source: `scripts/resumes.py` (requires ReportLab)
+- Resume: one PDF at `src/resumes/stella-hwang.pdf` (git-ignored), shown as the Resume icon link in the sidebar. Made from `targeted-resumes/` below
 
 ## Build and check
 
-Requires Node.js 22 or newer. No npm installation required.
+Requires Node.js 22 or newer. The static build needs no npm installation. Browser editing and the full test suite require `npm install`.
 
 ```
 npm run build
 npm test
 npm run preview
 ```
+
+For the full browser editing check (requires Google Chrome): `npm run test:editor`. It uses a disposable copy of the site so your content stays untouched.
 
 The preview is at http://localhost:4173.
 
@@ -70,6 +90,15 @@ This project uses Pages direct upload. It does not require a Worker config, D1, 
 
 ## Before using this as a finished professional site
 
-Work entries, project ideas, writing, and PDF resumes are visibly labeled as samples. Replace them with confirmed content and real resume PDFs. Add your public contact links in `content/contact.md`. The deployment currently sends `noindex, nofollow` and disallows crawling in robots.txt while sample content is present; remove both once ready. Update SITE_URL when connecting a custom domain.
+Work entries, project ideas, and writing are visibly labeled as samples. Replace them with confirmed content. Add your public contact links in `content/contact.md`. The deployment currently sends `noindex, nofollow` and disallows crawling in robots.txt while sample content is present; remove both once ready. Update SITE_URL when connecting a custom domain.
 
 No analytics or guestbook are included. Email subscribers are stored by Buttondown, not on this site.
+
+## Targeted resumes (Typst, private)
+
+`targeted-resumes/` is git-ignored because it holds contact details. It needs [Typst](https://typst.app) (`brew install typst`).
+
+- `data.yaml`: every job, project, school and skill, with bullets tagged (`infra`, `ai`, `backend`, `frontend`, `impact`, ...). Use `**bold**` for emphasis.
+- `targets/<company>.yaml`: what one resume shows. Copy `example-ai-infra.yaml`; choose entries (`experience`, `projects`), what to `emphasize`, `max_bullets` per entry, and `skills_first`.
+- `npm run resume` lists targets, `npm run resume -- <company>` builds `targeted-resumes/out/Stella-Hwang-<company>.pdf`, `--all` builds all, `--watch` rebuilds on save.
+- Building `default` also copies it to `src/resumes/stella-hwang.pdf`, the file the site's Resume link downloads.

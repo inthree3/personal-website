@@ -45,3 +45,13 @@ test('tables, quotes, rules and line breaks',()=>{
 test('relative URLs can be rewritten for post folders',()=>{
  assert.equal(markdown('![x](img%20one.png)',{url:u=>'/writing/p/'+u}),'<figure><img src="/writing/p/img%20one.png" alt="x" loading="lazy" decoding="async"></figure>');
 });
+
+test('escaped punctuation from rich text remains literal',()=>{
+ assert.equal(markdown('A \\*literal\\* and \\[brackets\\] with \\_underscores\\_.'),'<p>A *literal* and [brackets] with _underscores_.</p>');
+ assert.equal(markdown('\\# Not a heading'),'<p># Not a heading</p>');
+});
+
+test('link and image query parameters are escaped exactly once',()=>{
+ assert.equal(inline('[Query](https://example.com/?a=1&b=2)'),'<a href="https://example.com/?a=1&amp;b=2" rel="noopener">Query</a>');
+ assert.equal(inline('![Photo](https://example.com/photo?a=1&b=2)'),'<img src="https://example.com/photo?a=1&amp;b=2" alt="Photo" loading="lazy" decoding="async">');
+});

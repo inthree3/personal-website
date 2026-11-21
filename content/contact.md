@@ -15,4 +15,4 @@ This first version doesn’t publish contact information that hasn’t been conf
 
 ## Looking for my background?
 
-See my [resume](/resume/).
+See my [resume](/resumes/stella-hwang.pdf "Stella-Hwang-Resume.pdf").

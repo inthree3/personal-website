@@ -4,7 +4,7 @@
 // fenced code, tables, horizontal rules, and raw HTML lines such as <details> and <summary>.
 
 const esc=s=>s.replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;');
-const attr=s=>esc(s).replaceAll('"','&quot;');
+const attr=s=>s.replace(/&(?!#?\w+;)/g,'&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;');
 
 /** Splits "---" front matter from the body. Values are strings, except true/false. */
 export function frontMatter(src){
@@ -25,6 +25,8 @@ export function inline(text,opts={}){
  const keep=[];
  const hold=html=>{keep.push(html);return `\u0000${keep.length-1}\u0000`;};
  text=text.replace(/(`+)([\s\S]*?[^`])\1(?!`)/g,(_,__,c)=>hold(`<code>${esc(c.trim())}</code>`));
+ // Preserve escaped punctuation emitted by rich-text Markdown conversion.
+ text=text.replace(/\\([!"#$%&'()*+,\-./:;<=>?@[\\\]^_`{|}~])/g,(_,c)=>hold(esc(c)));
  // Raw inline tags like <br> pass through; any other < or & is escaped.
  text=text.replace(/<\/?[a-zA-Z][^<>]*>/g,t=>hold(t));
  text=text.replace(/&(?!#?\w+;)/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
