@@ -1,6 +1,6 @@
 ---
 title: Contact | Stella Hwang
-description: Get in touch with Stella Hwang.
+description: I'm always happy to talk about ML, agentic systems, or building early-stage products. Here's how to reach me and where to find my work.
 ---
 
 # Contact

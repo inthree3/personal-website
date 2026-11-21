@@ -1,7 +1,7 @@
 ---
 title: How to give a good presentation (with the help of LLMs)
 date: 2026-11-09
-description: What worked and what did not when I used LLMs to write presentation scripts and slides.
+description: I used LLMs to help write my presentation scripts and slides for a class and a hackathon. Here's what worked, what didn't, and what I'd keep.
 summary: You still need to hold the core message.
 ---
 

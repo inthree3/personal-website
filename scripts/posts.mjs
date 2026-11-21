@@ -3,7 +3,7 @@ import {dirname,join} from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {frontMatter,markdown} from './markdown.mjs';
 export const root=dirname(dirname(fileURLToPath(import.meta.url)));
-export const base=process.env.SITE_URL || 'https://stella-hwang-personal.pages.dev';
+export const base=process.env.SITE_URL || 'https://stella.is-a.dev';
 export const writingDir=join(root,'content','writing');
 
 // Each post is content/writing/<slug>.md, or content/writing/<slug>/index.md with its images next to it

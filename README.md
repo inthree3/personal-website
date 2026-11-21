@@ -86,11 +86,11 @@ This builds the site, uploads `dist/` to Cloudflare Pages, and then creates a Bu
 - Posts with `sample: true` are never emailed.
 - The API key is read from the macOS keychain entry `buttondown-api-key` (or `BUTTONDOWN_API_KEY`). Without it the step is skipped.
 
-This project uses Pages direct upload. It does not require a Worker config, D1, or paid services. The existing `blue-disk-9749` Worker and `inseon.is-a.dev` DNS are not modified.
+This project uses Pages direct upload. It does not require a Worker config, D1, or paid services. The site is served at https://stella.is-a.dev (a CNAME to `stella-hwang-personal.pages.dev`, registered in is-a-dev/register). is-a.dev is on the Public Suffix List, so the custom domain is added to the Pages project through the Cloudflare API, not the dashboard.
 
 ## Before using this as a finished professional site
 
-Work entries, project ideas, and writing are visibly labeled as samples. Replace them with confirmed content. Add your public contact links in `content/contact.md`. Crawlers are allowed and every page gets link-preview tags (`og:*`, `twitter:card`, canonical) from its front matter `title` and `description` at build time. The preview image is the front matter `image` (optional `image_alt`), else a post's first image, else the portrait; the build fails if a title, description or image is missing. Update SITE_URL when connecting a custom domain, since preview URLs are absolute.
+Work entries, project ideas, and writing are visibly labeled as samples. Replace them with confirmed content. Add your public contact links in `content/contact.md`. Crawlers are allowed and every page gets link-preview tags (`og:*`, `twitter:card`, canonical) from its front matter `title` and `description` at build time. The preview image is the front matter `image` (optional `image_alt`), else a post's first image, else the portrait; the build fails if a title, description or image is missing. SITE_URL defaults to https://stella.is-a.dev; change it if the domain changes, since preview URLs are absolute.
 
 No analytics or guestbook are included. Email subscribers are stored by Buttondown, not on this site.
 

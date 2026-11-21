@@ -1,6 +1,6 @@
 ---
 title: Stella Hwang
-description: Software engineer building practical ML and agentic systems.
+description: I'm Stella, a full-stack engineer at UC Berkeley's CHAI. I build practical ML and agentic systems, from autonomous operations to recommenders.
 portrait: /assets/stella-hwang-presentation.jpg
 portrait_alt: Stella Hwang standing beside a research poster
 ---
